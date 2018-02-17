@@ -50,7 +50,7 @@ class App extends Component {
       <Divider hidden />
       {drink &&
         <Container>
-          <Header as='h2'>{drink.title}</Header>
+          <Header as='h2'><a href={drink.source}>{drink.title}</a></Header>
           {drink.description && <p>{drink.description}</p>}
           {drink.ingredients &&
             <Segment.Group>
