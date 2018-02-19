@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Container, Header, Segment, Button, Icon, Dimmer, Loader, Divider } from 'semantic-ui-react'
+import { Container, Header, Button, Icon, Dimmer, Loader, Divider } from 'semantic-ui-react'
+import Drink from './components/Drink.js';
 
 class App extends Component {
   constructor () {
@@ -8,9 +9,11 @@ class App extends Component {
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
   }
+  
   componentDidMount () {
     this.getDrinks()
   }
+  
   fetch (endpoint) {
     return new Promise((resolve, reject) => {
       window.fetch(endpoint)
@@ -19,6 +22,7 @@ class App extends Component {
       .catch(error => reject(error))
     })
   }
+  
   getDrinks () {
     this.fetch('api/drinks')
       .then(drinks => {
@@ -26,10 +30,12 @@ class App extends Component {
         this.getDrink(drinks[0].id)
       })
   }
+  
   getDrink (id) {
     this.fetch(`api/drinks/${id}`)
       .then(drink => this.setState({drink: drink}))
   }
+  
   render () {
     let {drinks, drink} = this.state
     return drinks
@@ -49,16 +55,7 @@ class App extends Component {
       </Button.Group>
       <Divider hidden />
       {drink &&
-        <Container>
-          <Header as='h2'><a href={drink.source}>{drink.title}</a></Header>
-          {drink.description && <p>{drink.description}</p>}
-          {drink.ingredients &&
-            <Segment.Group>
-              {drink.ingredients.map((ingredient, i) => <Segment key={i}>{ingredient.description}</Segment>)}
-            </Segment.Group>
-          }
-          {drink.steps && <p>{drink.steps}</p>}
-        </Container>
+        <Drink title={this.state.drink.title} description={this.state.drink.description} ingredients={this.state.drink.ingredients} steps={this.state.drink.steps} source={this.state.drink.source} />
       }
     </Container>
     : <Container text>
