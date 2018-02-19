@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header } from 'semantic-ui-react'
-import Ingredients from './Ingredients.js';
+import Ingredients from './Ingredients.jsx';
 
 class Drink extends Component {
   render () {
