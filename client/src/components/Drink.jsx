@@ -22,6 +22,7 @@ class Drink extends Component {
             ingredients={this.props.ingredients}
             drinkId={this.props.drinkId}
             postIngredient={this.props.postIngredient}
+            flipButtonsDisabled={this.props.flipButtonsDisabled}
           />
         }
 

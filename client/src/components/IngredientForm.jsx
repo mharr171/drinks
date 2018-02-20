@@ -24,8 +24,9 @@ class IngredientForm extends Component {
     };
 
     console.log(data);
-
-    this.props.postIngredient(`api/drinks/${this.props.drinkId}`, data, this.props.drinkId);
+    this.props.showButton();
+    this.props.flipButtonsDisabled();
+    this.props.postIngredient(`api/drinks/${this.props.drinkId}/ingredients`, data, this.props.drinkId);
   }
 
   render () {

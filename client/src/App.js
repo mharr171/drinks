@@ -6,19 +6,23 @@ import DrinkForm from './components/DrinkForm.jsx';
 class App extends Component {
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      buttonsDisabled: false
+    }
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
     this.newDrink = this.newDrink.bind(this)
-    
+
     this.post = this.post.bind(this)
     this.postIngredient = this.postIngredient.bind(this)
+
+    this.flipButtonsDisabled = this.flipButtonsDisabled.bind(this)
   }
-  
+
   componentDidMount () {
     this.getDrinks()
   }
-  
+
   fetch (endpoint) {
     return new Promise((resolve, reject) => {
       window.fetch(endpoint)
@@ -27,45 +31,45 @@ class App extends Component {
       .catch(error => reject(error))
     })
   }
-  
+
   async post (endpoint, data) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    
+
     const options = {
       method: 'POST',
       headers,
       body: JSON.stringify(data)
     };
-    
+
     const request = new Request(endpoint, options);
     const response = await fetch(request);
     const status = await response.status;
-    
+
     if (status === 201){
       this.getDrinks();
     }
   }
-  
+
   async postIngredient (endpoint, data, drinkId) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    
+
     const options = {
       method: 'POST',
       headers,
       body: JSON.stringify(data)
     };
-    
+
     const request = new Request(endpoint, options);
     const response = await fetch(request);
     const status = await response.status;
-    
+
     if (status === 201){
       this.getDrink(drinkId);
     }
   }
-  
+
   getDrinks () {
     this.fetch('api/drinks')
       .then(drinks => {
@@ -73,18 +77,22 @@ class App extends Component {
         this.getDrink(drinks[0].id)
       })
   }
-  
+
   getDrink (id) {
     this.fetch(`api/drinks/${id}`)
       .then(drink => this.setState({drink: drink}))
   }
-  
+
   newDrink () {
     this.setState({drink: null})
   }
-  
+
+  flipButtonsDisabled () {
+    this.setState(this.state.buttonsDisabled ? {buttonsDisabled:false} : {buttonsDisabled:true})
+  }
+
   render () {
-    let {drinks, drink} = this.state
+    let {drinks, drink, buttonsDisabled} = this.state
     return drinks
     ? <Container text>
         <Header as='h2' icon textAlign='center'>
@@ -93,25 +101,49 @@ class App extends Component {
             List of Ingredients
           </Header.Content>
         </Header>
-        
-        <Button onClick={() => this.newDrink()}>
-          New Drink
-        </Button>
-      
+
+        {
+          !buttonsDisabled &&
+          <Button onClick={() => this.newDrink()}>
+            New Drink
+          </Button>
+        }
+        {
+          buttonsDisabled &&
+          <Button disabled onClick={() => this.newDrink()}>
+            New Drink
+          </Button>
+        }
+
         <Button.Group fluid widths={drinks.length}>
-          {Object.keys(drinks).map((key) => {
-            return <Button active={drink && drink.id === drinks[key].id} fluid key={key} onClick={() => this.getDrink(drinks[key].id)}>
-              {drinks[key].title}
-            </Button>
-          })}
+          {
+            !buttonsDisabled &&
+            Object.keys(drinks).map((key) => {
+              return (
+                <Button active={drink && drink.id === drinks[key].id} fluid key={key} onClick={() => this.getDrink(drinks[key].id)}>
+                  {drinks[key].title}
+                </Button>
+              );
+            })
+          }
+          {
+            buttonsDisabled &&
+            Object.keys(drinks).map((key) => {
+              return (
+                <Button active={drink && drink.id === drinks[key].id} fluid disabled key={key} onClick={() => this.getDrink(drinks[key].id)}>
+                  {drinks[key].title}
+                </Button>
+              );
+            })
+          }
         </Button.Group>
-        
+
         <Divider hidden />
-        
+
         {!drink &&
           <DrinkForm post={this.post}/>
         }
-        
+
         {drink &&
           <Drink
             title={this.state.drink.title}
@@ -120,7 +152,8 @@ class App extends Component {
             steps={this.state.drink.steps}
             source={this.state.drink.source}
             drinkId={this.state.drink.id}
-            postIngredient={this.state.postIngredient}
+            postIngredient={this.postIngredient}
+            flipButtonsDisabled={this.flipButtonsDisabled}
           />
         }
       </Container>

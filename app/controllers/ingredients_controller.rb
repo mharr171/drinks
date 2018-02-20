@@ -5,7 +5,7 @@ class IngredientsController < ApiController
     @ingredient = @drink.ingredients.build(ingredient_params)
 
     if @ingredient.save
-      render json: @ingredient, status: :create
+      render json: @ingredient, status: :created
     else
       render json: { errors: @list.errors.full_messages }, status: :unprocessable_entity
     end

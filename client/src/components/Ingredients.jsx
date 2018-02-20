@@ -6,7 +6,6 @@ class Ingredients extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       ingredients: this.props.ingredients,
        newForm: false
     };
 
@@ -15,6 +14,7 @@ class Ingredients extends Component {
   }
 
   showNewForm () {
+    this.props.flipButtonsDisabled();
     this.setState({newForm: true});
   }
 
@@ -22,26 +22,28 @@ class Ingredients extends Component {
     this.setState({newForm: false});
   }
   render () {
-    let {ingredients} = this.state
+    let {newForm} = this.state
     return (
       <div>
         {
-          this.state.ingredients &&
+          this.props.ingredients &&
           <Segment.Group>
-            {Object.keys(ingredients).map((key) => {
-              return <Segment key={key}>{ingredients[key].description}</Segment>
+            {Object.keys(this.props.ingredients).map((key) => {
+              return <Segment key={key}>{this.props.ingredients[key].description}</Segment>
             })}
             <Segment>
               {
-                this.state.newForm &&
+                newForm &&
                 <IngredientForm
                   drinkId={this.props.drinkId}
                   postIngredient={this.props.postIngredient}
+                  flipButtonsDisabled={this.props.flipButtonsDisabled}
+                  showButton={this.showButton}
                 />
               }
 
               {
-                !this.state.newForm &&
+                !newForm &&
                 <Button onClick={this.showNewForm}>+</Button>
               }
 
