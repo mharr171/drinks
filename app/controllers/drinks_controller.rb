@@ -14,6 +14,13 @@ class DrinksController < ApiController
   # POST /api/drinks
   def create
     @drink = Drink.new(drink_params)
+    if (@drink.title == '')
+      @drink.title = 'New Drink'
+    end
+
+    if (@drink.source == '')
+      @drink.source = 'http://livefullstack.com'
+    end
 
     if @drink.save
       render json: @drink, status: :created
