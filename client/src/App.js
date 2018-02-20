@@ -11,9 +11,11 @@ class App extends Component {
     }
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
+    this.getDrinksAndGetDrink = this.getDrinksAndGetDrink.bind(this)
     this.newDrink = this.newDrink.bind(this)
 
     this.post = this.post.bind(this)
+    this.patchDrink = this.patchDrink.bind(this)
     this.postIngredient = this.postIngredient.bind(this)
 
     this.flipButtonsDisabled = this.flipButtonsDisabled.bind(this)
@@ -51,6 +53,25 @@ class App extends Component {
     }
   }
 
+  async patchDrink (endpoint, data, drinkId) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const options = {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(data)
+    };
+
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+
+    if (status === 202){
+      this.getDrinksAndGetDrink(drinkId);
+    }
+  }
+
   async postIngredient (endpoint, data, drinkId) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -81,6 +102,11 @@ class App extends Component {
   getDrink (id) {
     this.fetch(`api/drinks/${id}`)
       .then(drink => this.setState({drink: drink}))
+  }
+
+  getDrinksAndGetDrink (id) {
+    this.getDrinks();
+    this.getDrink(id);
   }
 
   newDrink () {
@@ -154,6 +180,8 @@ class App extends Component {
             drinkId={this.state.drink.id}
             postIngredient={this.postIngredient}
             flipButtonsDisabled={this.flipButtonsDisabled}
+            patchDrink={this.patchDrink}
+            buttonsDisabled={this.state.buttonsDisabled}
           />
         }
       </Container>

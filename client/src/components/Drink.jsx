@@ -1,14 +1,49 @@
 import React, { Component } from 'react';
 import { Container, Header } from 'semantic-ui-react'
 import Ingredients from './Ingredients.jsx';
+import EditDrinkForm from './EditDrinkForm.jsx';
 
 class Drink extends Component {
+  constructor (props) {
+    super(props)
+    this.state= {
+      editState: false
+    }
+
+    this.flipEditState = this.flipEditState.bind(this)
+    this.editDrink = this.editDrink.bind(this)
+
+  }
+
+  flipEditState () {
+    this.setState(this.state.editState ? {editState:false} : {editState:true})
+  }
+  editDrink () {
+    this.flipEditState()
+    this.props.flipButtonsDisabled()
+  }
+
   render () {
-    return (
-      <Container>
+    let {editState} = this.state
+    return !editState
+    ? <Container>
         {
-          this.props.source && this.props.title &&
-          <Header as='h2'><a href={this.props.source}>{this.props.title}</a></Header>
+          this.props.source && this.props.title && !this.props.buttonsDisabled &&
+          <Header as='h2'>
+            <a href={this.props.source}>{this.props.title}</a>
+            <a onClick={this.editDrink}>+</a>
+            </Header>
+        }
+        {
+          this.props.source && this.props.title && this.props.buttonsDisabled &&
+          <Header as='h2'>
+            <a href={this.props.source}>{this.props.title}</a>
+            </Header>
+        }
+
+        {
+          editState &&
+          <p>edit state = true</p>
         }
 
         {
@@ -31,7 +66,18 @@ class Drink extends Component {
           <p>{this.props.steps}</p>
         }
       </Container>
-    );
+    : <Container>
+        <EditDrinkForm
+          drinkId={this.props.drinkId}
+          title={this.props.title}
+          description={this.props.description}
+          steps={this.props.steps}
+          source={this.props.source}
+          patchDrink={this.props.patchDrink}
+          flipButtonsDisabled={this.props.flipButtonsDisabled}
+          flipEditState={this.flipEditState}
+        />
+      </Container>
   }
 }
 

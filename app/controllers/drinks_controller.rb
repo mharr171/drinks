@@ -26,7 +26,7 @@ class DrinksController < ApiController
   def update
     @drink = Drink.find(params[:id])
     if @drink.update(drink_params)
-      render json: @drink
+      render json: @drink, status: :accepted
     else
       render json: { errors: @drink.errors.full_messages }, status: :unprocessable_entity
     end

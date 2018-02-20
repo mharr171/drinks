@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 function toTitleCase(str)
 {
   return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -13,7 +14,7 @@ function forceHttp(str)
   }
 }
 
-class DrinkForm extends Component {
+class EditDrinkForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,11 +24,26 @@ class DrinkForm extends Component {
       steps: '',
       source: ''
     };
+    this.setAttributes = this.setAttributes.bind(this)
+
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleStepsChange = this.handleStepsChange.bind(this);
     this.handleSourceChange = this.handleSourceChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount () {
+    this.setAttributes()
+  }
+
+  setAttributes () {
+    this.setState({
+      title: this.props.title,
+      description: this.props.description,
+      steps: this.props.steps,
+      source: this.props.source
+    });
   }
 
   handleTitleChange (e) {
@@ -58,7 +74,9 @@ class DrinkForm extends Component {
 
     console.log(data);
 
-    this.props.post('api/drinks', data);
+    this.props.flipEditState();
+    this.props.flipButtonsDisabled();
+    this.props.patchDrink(`api/drinks/${this.props.drinkId}`, data, this.props.drinkId);
   }
 
   render () {
@@ -97,4 +115,4 @@ class DrinkForm extends Component {
   }
 }
 
-export default DrinkForm
+export default EditDrinkForm
