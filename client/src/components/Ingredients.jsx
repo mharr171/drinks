@@ -34,6 +34,7 @@ class Ingredients extends Component {
               return(
                 <Segment key={key}>
                   <Ingredient
+                    drinkId={this.props.drinkId}
                     ingredientId={this.props.ingredients[key].id}
                     description={this.props.ingredients[key].description}
                     patchIngredient={this.props.patchIngredient}
@@ -48,7 +49,7 @@ class Ingredients extends Component {
                 newForm &&
                 <IngredientForm
                   drinkId={this.props.drinkId}
-                  patchDrink={this.props.patchDrink}
+                  postIngredient={this.props.postIngredient}
                   flipButtonsDisabled={this.props.flipButtonsDisabled}
                   showButton={this.showButton}
                 />

@@ -1,7 +1,7 @@
 class DrinksController < ApiController
   # GET /drinks
   def index
-    @drinks = Drink.select("id, title, created_at").all.sort_by{|drink| drink.created_at}
+    @drinks = Drink.select("id, title, updated_at").all.sort_by{|drink| drink.updated_at}.reverse
     render json: @drinks.to_json, status: :ok
   end
 

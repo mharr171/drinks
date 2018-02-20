@@ -36,7 +36,7 @@ class EditIngredientForm extends Component {
 
     this.props.flipButtonsDisabled();
     this.props.flipEditState();
-    this.props.patchIngredient(`api/ingredients/${this.props.ingredientId}`, data, this.props.ingredientId);
+    this.props.patchIngredient(`api/ingredients/${this.props.ingredientId}`, data, this.props.drinkId);
   }
 
   render () {

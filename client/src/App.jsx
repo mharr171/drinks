@@ -7,6 +7,8 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
+      drinks: null,
+      drink: null,
       buttonsDisabled: false
     }
     this.getDrinks = this.getDrinks.bind(this)
@@ -95,7 +97,9 @@ class App extends Component {
     this.fetch('api/drinks')
       .then(drinks => {
         this.setState({drinks: drinks})
-        this.getDrink(drinks[0].id)
+        if (!this.state.drink){
+          this.getDrink(drinks[0].id)
+        }
       })
   }
 

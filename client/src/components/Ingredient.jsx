@@ -39,6 +39,7 @@ class Ingredient extends Component {
       }
       </span>
     : <EditIngredientForm
+        drinkId={this.props.drinkId}
         ingredientId={this.props.ingredientId}
         description={this.props.description}
         patchIngredient={this.props.patchIngredient}
