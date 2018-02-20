@@ -31,8 +31,10 @@ class Drink extends Component {
           this.props.source && this.props.title && !this.props.buttonsDisabled &&
           <Header as='h2'>
             <a href={this.props.source}>{this.props.title}</a>
-            <a onClick={this.editDrink}>+</a>
-            </Header>
+            <sub>
+              <a onClick={this.editDrink}>*</a>
+            </sub>
+          </Header>
         }
         {
           this.props.source && this.props.title && this.props.buttonsDisabled &&
@@ -58,6 +60,8 @@ class Drink extends Component {
             drinkId={this.props.drinkId}
             postIngredient={this.props.postIngredient}
             flipButtonsDisabled={this.props.flipButtonsDisabled}
+            patchIngredient={this.props.patchDrink}
+            buttonsDisabled={this.props.buttonsDisabled}
           />
         }
 

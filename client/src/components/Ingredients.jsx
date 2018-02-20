@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Segment, Button } from 'semantic-ui-react'
+import Ingredient from './Ingredient.jsx';
 import IngredientForm from './IngredientForm.jsx';
 
 class Ingredients extends Component {
@@ -21,6 +22,7 @@ class Ingredients extends Component {
   showButton () {
     this.setState({newForm: false});
   }
+
   render () {
     let {newForm} = this.state
     return (
@@ -29,14 +31,24 @@ class Ingredients extends Component {
           this.props.ingredients &&
           <Segment.Group>
             {Object.keys(this.props.ingredients).map((key) => {
-              return <Segment key={key}>{this.props.ingredients[key].description}</Segment>
+              return(
+                <Segment key={key}>
+                  <Ingredient
+                    ingredientId={this.props.ingredients[key].id}
+                    description={this.props.ingredients[key].description}
+                    patchIngredient={this.props.patchIngredient}
+                    buttonsDisabled={this.props.buttonsDisabled}
+                    flipButtonsDisabled={this.props.flipButtonsDisabled}
+                  />
+                </Segment>
+              )
             })}
             <Segment>
               {
                 newForm &&
                 <IngredientForm
                   drinkId={this.props.drinkId}
-                  postIngredient={this.props.postIngredient}
+                  patchDrink={this.props.patchDrink}
                   flipButtonsDisabled={this.props.flipButtonsDisabled}
                   showButton={this.showButton}
                 />
@@ -44,7 +56,16 @@ class Ingredients extends Component {
 
               {
                 !newForm &&
-                <Button onClick={this.showNewForm}>+</Button>
+                <span>
+                  {
+                    !this.props.buttonsDisabled &&
+                    <Button onClick={this.showNewForm}>+</Button>
+                  }
+                  {
+                    this.props.buttonsDisabled &&
+                    <Button disabled onClick={this.showNewForm}>+</Button>
+                  }
+                </span>
               }
 
             </Segment>
