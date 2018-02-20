@@ -12,6 +12,7 @@ class App extends Component {
     this.newDrink = this.newDrink.bind(this)
     
     this.post = this.post.bind(this)
+    this.postIngredient = this.postIngredient.bind(this)
   }
   
   componentDidMount () {
@@ -44,18 +45,25 @@ class App extends Component {
     if (status === 201){
       this.getDrinks();
     }
-    // return new Promise((resolve, reject) => {
-    //   window.fetch(endpoint, {
-    //     method: 'POST',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({data: data})
-    //   .then(response => response.json())
-    //   .then(json => resolve(json))
-    //   .catch(error => reject(error))
-    // })
+  }
+  
+  async postIngredient (endpoint, data, drinkId) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    
+    const options = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
+    };
+    
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+    
+    if (status === 201){
+      this.getDrink(drinkId);
+    }
   }
   
   getDrinks () {
@@ -105,7 +113,15 @@ class App extends Component {
         }
         
         {drink &&
-          <Drink title={this.state.drink.title} description={this.state.drink.description} ingredients={this.state.drink.ingredients} steps={this.state.drink.steps} source={this.state.drink.source} />
+          <Drink
+            title={this.state.drink.title}
+            description={this.state.drink.description}
+            ingredients={this.state.drink.ingredients}
+            steps={this.state.drink.steps}
+            source={this.state.drink.source}
+            drinkId={this.state.drink.id}
+            postIngredient={this.state.postIngredient}
+          />
         }
       </Container>
     : <Container text>

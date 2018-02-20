@@ -18,7 +18,11 @@ class Drink extends Component {
 
         {
           this.props.ingredients &&
-          <Ingredients ingredients={this.props.ingredients}/>
+          <Ingredients
+            ingredients={this.props.ingredients}
+            drinkId={this.props.drinkId}
+            postIngredient={this.props.postIngredient}
+          />
         }
 
         {
