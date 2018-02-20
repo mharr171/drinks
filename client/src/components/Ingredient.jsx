@@ -54,8 +54,7 @@ class Ingredient extends Component {
         ingredientId={this.props.ingredientId}
         description={this.props.description}
         patchIngredient={this.props.patchIngredient}
-        flipButtonsDisabled={this.props.flipButtonsDisabled}
-        flipEditState={this.flipEditState}
+        flipEditState={this.editIngredient}
       />
   }
 }

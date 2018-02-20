@@ -218,7 +218,10 @@ class App extends Component {
         <Divider hidden />
 
         {!drink &&
-          <DrinkForm post={this.post}/>
+          <DrinkForm
+            post={this.post}
+            getDrinks={this.getDrinks}
+          />
         }
 
         {drink &&

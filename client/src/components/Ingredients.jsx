@@ -20,6 +20,7 @@ class Ingredients extends Component {
   }
 
   showButton () {
+    this.props.flipButtonsDisabled();
     this.setState({newForm: false});
   }
 
@@ -51,7 +52,7 @@ class Ingredients extends Component {
                 <IngredientForm
                   drinkId={this.props.drinkId}
                   postIngredient={this.props.postIngredient}
-                  flipButtonsDisabled={this.props.flipButtonsDisabled}
+                  flipEditState={this.props.flipEditState}
                   showButton={this.showButton}
                 />
               }

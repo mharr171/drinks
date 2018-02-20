@@ -68,6 +68,7 @@ class Drink extends Component {
             drinkId={this.props.drinkId}
             postIngredient={this.props.postIngredient}
             flipButtonsDisabled={this.props.flipButtonsDisabled}
+            flipEditState={this.flipEditState}
             patchIngredient={this.props.patchDrink}
             buttonsDisabled={this.props.buttonsDisabled}
             deleteIngredient={this.props.deleteIngredient}

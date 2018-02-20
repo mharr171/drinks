@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, Form } from 'semantic-ui-react'
 
 class EditIngredientForm extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class EditIngredientForm extends Component {
 
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount () {
@@ -39,17 +41,22 @@ class EditIngredientForm extends Component {
     this.props.patchIngredient(`api/ingredients/${this.props.ingredientId}`, data, this.props.drinkId);
   }
 
+  cancel (e) {
+    e.preventDefault();
+
+    this.props.flipEditState();
+  }
   render () {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <p>
-          <label>
-            Description:
-            <input type="textarea" value={this.state.description} onChange={this.handleDescriptionChange} />
-          </label>
-        </p>
-        <input type="submit" value="Submit" />
-      </form>
+      <Form onSubmit={this.handleSubmit}>
+        <div className="field">
+          <label>Ingredient:</label>
+          <input value={this.state.description} onChange={this.handleDescriptionChange} />
+        </div>
+
+        <Button type="submit" className="ui-button">Save</Button>
+        <Button onClick={this.cancel} className="ui-button">Cancel</Button>
+      </Form>
     );
   }
 }
