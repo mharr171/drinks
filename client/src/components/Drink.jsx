@@ -12,15 +12,20 @@ class Drink extends Component {
 
     this.flipEditState = this.flipEditState.bind(this)
     this.editDrink = this.editDrink.bind(this)
-
+    this.deleteDrink = this.deleteDrink.bind(this)
   }
 
   flipEditState () {
     this.setState(this.state.editState ? {editState:false} : {editState:true})
   }
+
   editDrink () {
     this.flipEditState()
     this.props.flipButtonsDisabled()
+  }
+
+  deleteDrink () {
+    this.props.delete(`api/drinks/${this.props.drinkId}`);
   }
 
   render () {
@@ -30,6 +35,9 @@ class Drink extends Component {
         {
           this.props.source && this.props.title && !this.props.buttonsDisabled &&
           <Header as='h2'>
+            <sup>
+              <a onClick={this.deleteDrink}>ⓧ</a>
+            </sup>
             <a href={this.props.source}>{this.props.title}</a>
             <sub>
               <a onClick={this.editDrink}>*</a>
@@ -62,6 +70,7 @@ class Drink extends Component {
             flipButtonsDisabled={this.props.flipButtonsDisabled}
             patchIngredient={this.props.patchDrink}
             buttonsDisabled={this.props.buttonsDisabled}
+            deleteIngredient={this.props.deleteIngredient}
           />
         }
 

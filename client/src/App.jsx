@@ -17,8 +17,10 @@ class App extends Component {
     this.newDrink = this.newDrink.bind(this)
 
     this.post = this.post.bind(this)
+    this.delete = this.delete.bind(this)
     this.patchDrink = this.patchDrink.bind(this)
     this.postIngredient = this.postIngredient.bind(this)
+    this.deleteIngredient = this.deleteIngredient.bind(this)
 
     this.flipButtonsDisabled = this.flipButtonsDisabled.bind(this)
   }
@@ -52,6 +54,48 @@ class App extends Component {
 
     if (status === 201){
       this.getDrinks();
+    }
+  }
+
+  async delete (endpoint) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const options = {
+      method: 'DELETE',
+      headers
+    };
+
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+
+    if (status){
+      console.log('status: ' + status)
+    }
+    if (status === 204){
+      this.getDrinks(1);
+    }
+  }
+
+  async deleteIngredient (endpoint, drinkId) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const options = {
+      method: 'DELETE',
+      headers
+    };
+
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+
+    if (status){
+      console.log('status: ' + status)
+    }
+    if (status === 204){
+      this.getDrink(drinkId);
     }
   }
 
@@ -93,11 +137,14 @@ class App extends Component {
     }
   }
 
-  getDrinks () {
+  getDrinks (id = -1) {
     this.fetch('api/drinks')
       .then(drinks => {
         this.setState({drinks: drinks})
         if (!this.state.drink){
+          this.getDrink(drinks[0].id)
+        }
+        if (id !== -1){
           this.getDrink(drinks[0].id)
         }
       })
@@ -186,6 +233,8 @@ class App extends Component {
             flipButtonsDisabled={this.flipButtonsDisabled}
             patchDrink={this.patchDrink}
             buttonsDisabled={this.state.buttonsDisabled}
+            delete={this.delete}
+            deleteIngredient={this.deleteIngredient}
           />
         }
       </Container>

@@ -10,7 +10,7 @@ class Ingredient extends Component {
 
     this.flipEditState = this.flipEditState.bind(this)
     this.editIngredient = this.editIngredient.bind(this)
-
+    this.deleteIngredient = this.deleteIngredient.bind(this)
   }
 
   componentDidMount () {
@@ -26,10 +26,21 @@ class Ingredient extends Component {
     this.props.flipButtonsDisabled()
   }
 
+  deleteIngredient () {
+    console.log('INGREDIENT-DELETED.')
+    this.props.deleteIngredient(`api/ingredients/${this.props.ingredientId}`, this.props.drinkId);
+  }
+
   render () {
     let {editState} = this.state
     return !editState
     ? <span>
+      {
+        !this.props.buttonsDisabled &&
+        <sup>
+          <a onClick={this.deleteIngredient}>ⓧ</a>
+        </sup>
+      }
       {this.props.description}
       {
         !this.props.buttonsDisabled &&

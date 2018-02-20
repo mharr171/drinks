@@ -40,6 +40,7 @@ class Ingredients extends Component {
                     patchIngredient={this.props.patchIngredient}
                     buttonsDisabled={this.props.buttonsDisabled}
                     flipButtonsDisabled={this.props.flipButtonsDisabled}
+                    deleteIngredient={this.props.deleteIngredient}
                   />
                 </Segment>
               )
