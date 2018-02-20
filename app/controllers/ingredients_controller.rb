@@ -5,7 +5,7 @@ class IngredientsController < ApiController
     @ingredient = @drink.ingredients.build(ingredient_params)
 
     if @ingredient.save
-      render json: @ingredient
+      render json: @ingredient, status: :create
     else
       render json: { errors: @list.errors.full_messages }, status: :unprocessable_entity
     end
@@ -15,7 +15,7 @@ class IngredientsController < ApiController
   def update
     @ingredient = Ingredient.find(params[:id])
     if @ingredient.update(ingredient_params)
-      render json: @ingredient
+      render json: @ingredient, status: :ok
     else
       render json: { errors: @ingredient.errors.full_messages }, status: :unprocessable_entity
     end

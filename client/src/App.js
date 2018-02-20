@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Header, Button, Icon, Dimmer, Loader, Divider } from 'semantic-ui-react'
 import Drink from './components/Drink.jsx';
+import DrinkForm from './components/DrinkForm.jsx';
 
 class App extends Component {
   constructor () {
@@ -9,6 +10,8 @@ class App extends Component {
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
     this.newDrink = this.newDrink.bind(this)
+    
+    this.post = this.post.bind(this)
   }
   
   componentDidMount () {
@@ -22,6 +25,37 @@ class App extends Component {
       .then(json => resolve(json))
       .catch(error => reject(error))
     })
+  }
+  
+  async post (endpoint, data) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    
+    const options = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
+    };
+    
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+    
+    if (status === 201){
+      this.getDrinks();
+    }
+    // return new Promise((resolve, reject) => {
+    //   window.fetch(endpoint, {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({data: data})
+    //   .then(response => response.json())
+    //   .then(json => resolve(json))
+    //   .catch(error => reject(error))
+    // })
   }
   
   getDrinks () {
@@ -67,7 +101,7 @@ class App extends Component {
         <Divider hidden />
         
         {!drink &&
-          <p> -- new drink -- </p>
+          <DrinkForm post={this.post}/>
         }
         
         {drink &&

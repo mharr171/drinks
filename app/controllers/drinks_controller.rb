@@ -2,7 +2,7 @@ class DrinksController < ApiController
   # GET /drinks
   def index
     @drinks = Drink.select("id, title").all
-    render json: @drinks.to_json
+    render json: @drinks.to_json, status: :ok
   end
 
   # GET /drinks/:id
@@ -16,7 +16,7 @@ class DrinksController < ApiController
     @drink = Drink.new(drink_params)
 
     if @drink.save
-      render json: @drink
+      render json: @drink, status: :created
     else
       render json: { errors: @list.errors.full_messages }, status: :unprocessable_entity
     end
