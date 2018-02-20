@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Container, Header } from 'semantic-ui-react';
 import EditIngredientForm from './EditIngredientForm.jsx';
 
 class Ingredient extends Component {
@@ -45,7 +44,6 @@ class Ingredient extends Component {
         patchIngredient={this.props.patchIngredient}
         flipButtonsDisabled={this.props.flipButtonsDisabled}
         flipEditState={this.flipEditState}
-        patchIngredient={this.props.patchIngredient}
       />
   }
 }
