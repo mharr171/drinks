@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container, Dimmer, Loader, Segment } from 'semantic-ui-react'
 import Head from './components/Head.jsx';
 import DrinkList from './components/DrinkList.jsx';
+import Drink from './components/Drink.jsx';
 
 class App extends Component {
   constructor () {
@@ -22,22 +23,32 @@ class App extends Component {
     ? <Container text>
 
         <Head />
-
         <div class="ui hidden divider"></div>
 
-        <DrinkList
-          drinks = {drinks}
-          drink = {drink}
-          editFormIsOpen = {editFormIsOpen}
-          getDrinks= {this.getDrinks}
-          getDrink= {this.getDrink}
-        />
-
+        {
+          drinks && drink &&
+          <DrinkList
+            drinks = {drinks}
+            drink = {drink}
+            editFormIsOpen = {editFormIsOpen}
+            getDrinks= {this.getDrinks}
+            getDrink= {this.getDrink}
+          />
+        }
         <div class="ui hidden divider"></div>
 
-        <Segment.Group>
+        {
+          drink &&
+          <Drink
+            title={drink.title}
+            source={drink.source}
+            description={drink.description}
+            ingredients={drink.ingredients}
+            steps={drink.steps}
+          />
+        }
+        <div class="ui hidden divider"></div>
 
-        </Segment.Group>
       </Container>
     : <Container text>
         <Dimmer active inverted>
@@ -70,46 +81,6 @@ class App extends Component {
       .then(json => resolve(json))
       .catch(error => reject(error))
     })
-  }
-
-  async post (endpoint, data) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    const options = {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(data)
-    };
-
-    const request = new Request(endpoint, options);
-    const response = await fetch(request);
-    const status = await response.status;
-
-    if (status === 201){
-      this.getDrinks();
-    }
-  }
-
-  async delete (endpoint) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    const options = {
-      method: 'DELETE',
-      headers
-    };
-
-    const request = new Request(endpoint, options);
-    const response = await fetch(request);
-    const status = await response.status;
-
-    if (status){
-      console.log('status: ' + status)
-    }
-    if (status === 204){
-      this.getDrinks(1);
-    }
   }
 
   flip_editFormIsOpen () {

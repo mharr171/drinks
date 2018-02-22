@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Icon, Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 
 class DrinkList extends Component {
   constructor (props) {
@@ -8,7 +8,10 @@ class DrinkList extends Component {
   }
 
   render () {
+    // Variables
     let {drinks, drink, editFormIsOpen} = this.props
+    // Functions
+    let {getDrinks, getDrink} = this.props
     return (
       <div class="ui vertical segment">
         <Button.Group fluid widths={drinks.length}>
@@ -16,7 +19,7 @@ class DrinkList extends Component {
             !editFormIsOpen &&
             Object.keys(drinks).map((key) => {
               return (
-                <Button active={drink && drink.id === drinks[key].id} fluid key={key} onClick={() => this.props.getDrink(drinks[key].id)}>
+                <Button active={drink && drink.id === drinks[key].id} fluid key={key} onClick={() => getDrink(drinks[key].id)}>
                   {drinks[key].title}
                 </Button>
               );
@@ -26,7 +29,7 @@ class DrinkList extends Component {
             editFormIsOpen &&
             Object.keys(drinks).map((key) => {
               return (
-                <Button active={drink && drink.id === drinks[key].id} fluid disabled key={key} onClick={() => this.props.getDrink(drinks[key].id)}>
+                <Button active={drink && drink.id === drinks[key].id} fluid disabled key={key} onClick={() => getDrink(drinks[key].id)}>
                   {drinks[key].title}
                 </Button>
               );

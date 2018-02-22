@@ -12,7 +12,7 @@ class Head extends Component {
       <Header as='h2' icon textAlign='center'>
         <Icon name='cocktail' circular />
         <Header.Content>
-          List of Ingredients
+          <p>List of Ingredients</p>
         </Header.Content>
       </Header>
     )
