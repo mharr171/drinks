@@ -3,6 +3,7 @@ import { Container, Dimmer, Loader, Segment } from 'semantic-ui-react'
 import Head from './components/Head.jsx';
 import DrinkList from './components/DrinkList.jsx';
 import Drink from './components/Drink.jsx';
+import BottomNav from './components/BottomNav.jsx';
 
 class App extends Component {
   constructor () {
@@ -48,6 +49,10 @@ class App extends Component {
           />
         }
         <div class="ui hidden divider"></div>
+
+        <BottomNav
+          editFormIsOpen={editFormIsOpen}
+        />
 
       </Container>
     : <Container text>
