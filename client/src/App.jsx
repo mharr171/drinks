@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Container, Dimmer, Loader } from 'semantic-ui-react'
+import { Container, Dimmer, Loader, Segment } from 'semantic-ui-react'
 import Head from './components/Head.jsx';
+import DrinkList from './components/DrinkList.jsx';
 
 class App extends Component {
   constructor () {
@@ -12,14 +13,31 @@ class App extends Component {
     }
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
+    this.flip_editFormIsOpen = this.flip_editFormIsOpen.bind(this)
   }
 
   render () {
     let {drinks, drink, editFormIsOpen} = this.state
     return drinks
     ? <Container text>
+
         <Head />
+
         <div class="ui hidden divider"></div>
+
+        <DrinkList
+          drinks = {drinks}
+          drink = {drink}
+          editFormIsOpen = {editFormIsOpen}
+          getDrinks= {this.getDrinks}
+          getDrink= {this.getDrink}
+        />
+
+        <div class="ui hidden divider"></div>
+
+        <Segment.Group>
+
+        </Segment.Group>
       </Container>
     : <Container text>
         <Dimmer active inverted>
@@ -32,16 +50,11 @@ class App extends Component {
     this.getDrinks()
   }
 
-  getDrinks (id = -1) {
+  getDrinks () {
     this.fetch('api/drinks')
       .then(drinks => {
         this.setState({drinks: drinks})
-        if (!this.state.drink){
-          this.getDrink(drinks[0].id)
-        }
-        if (id !== -1){
-          this.getDrink(drinks[0].id)
-        }
+        this.getDrink(drinks[0].id)
       })
   }
 
@@ -97,6 +110,10 @@ class App extends Component {
     if (status === 204){
       this.getDrinks(1);
     }
+  }
+
+  flip_editFormIsOpen () {
+    (this.editFormIsOpen ? this.setState({editFormIsOpen:false}) : this.setState({editFormIsOpen:true}))
   }
 
 }
