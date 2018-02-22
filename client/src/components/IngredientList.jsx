@@ -12,12 +12,12 @@ class IngredientList extends Component {
     // Functions
     let {} = this.props
     return (
-      <div class="ui segments">
+      <div className="ui segments">
         {
           ingredients &&
           Object.keys(ingredients).map((key) => {
             return(
-              <div class="ui segment" key={key}>
+              <div className="ui segment" key={key}>
                 <p>
                   {ingredients[key].description}
                 </p>

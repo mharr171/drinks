@@ -13,7 +13,7 @@ class DrinkList extends Component {
     // Functions
     let {getDrinks, getDrink} = this.props
     return (
-      <div class="ui vertical segment">
+      <div className="ui vertical segment">
         <Button.Group fluid widths={drinks.length}>
           {
             !editFormIsOpen &&

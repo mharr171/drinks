@@ -3,6 +3,7 @@ import { Container, Dimmer, Loader, Segment } from 'semantic-ui-react'
 import Head from './components/Head.jsx';
 import DrinkList from './components/DrinkList.jsx';
 import Drink from './components/Drink.jsx';
+import NewDrink from './components/NewDrink.jsx';
 import BottomNav from './components/BottomNav.jsx';
 
 class App extends Component {
@@ -15,7 +16,12 @@ class App extends Component {
     }
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
+
+    this.post = this.post.bind(this)
+    this.postNewDrink = this.postNewDrink.bind(this)
+
     this.flip_editFormIsOpen = this.flip_editFormIsOpen.bind(this)
+    this.setNoDrink = this.setNoDrink.bind(this)
   }
 
   render () {
@@ -24,7 +30,7 @@ class App extends Component {
     ? <Container text>
 
         <Head />
-        <div class="ui hidden divider"></div>
+        <div className="ui hidden divider"></div>
 
         {
           drinks && drink &&
@@ -36,7 +42,7 @@ class App extends Component {
             getDrink= {this.getDrink}
           />
         }
-        <div class="ui hidden divider"></div>
+        <div className="ui hidden divider"></div>
 
         {
           drink &&
@@ -48,10 +54,20 @@ class App extends Component {
             steps={drink.steps}
           />
         }
-        <div class="ui hidden divider"></div>
+
+        {
+          !drink &&
+          <NewDrink
+            post={this.postNewDrink}
+          />
+        }
+
+
+        <div className="ui hidden divider"></div>
 
         <BottomNav
           editFormIsOpen={editFormIsOpen}
+          setNoDrink={this.setNoDrink}
         />
 
       </Container>
@@ -88,10 +104,37 @@ class App extends Component {
     })
   }
 
+  async post (endpoint, data) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const options = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
+    };
+
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+
+    return status
+  }
+
+  async postNewDrink (endpoint, data) {
+    const status = await this.post(endpoint, data)
+    if (status === 201){
+      this.getDrinks();
+    }
+  }
+
   flip_editFormIsOpen () {
     (this.editFormIsOpen ? this.setState({editFormIsOpen:false}) : this.setState({editFormIsOpen:true}))
   }
 
+  setNoDrink (){
+    this.setState({drink:null})
+  }
 }
 
 export default App

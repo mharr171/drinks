@@ -13,8 +13,8 @@ class Drink extends Component {
     // Functions
     let {} = this.props
     return (
-        <div class="ui segments">
-          <div class="ui segment">
+        <div className="ui segments">
+          <div className="ui segment">
             {
               title &&
               <a href={source}>
@@ -22,18 +22,18 @@ class Drink extends Component {
               </a>
             }
           </div>
-          <div class="ui segment">
+          <div className="ui segment">
             {
               description &&
               <p>{description}</p>
             }
           </div>
-          <div class="ui segment">
+          <div className="ui segment">
             <IngredientList
               ingredients={ingredients}
             />
           </div>
-          <div class="ui segment">
+          <div className="ui segment">
             {
               steps &&
               <p>{steps}</p>

@@ -13,9 +13,9 @@ class BottomNav extends Component {
     // Variables
     let {editFormIsOpen} = this.props
     // Functions
-    let {} = this.props
+    let {setNoDrink} = this.props
     return (
-      <div class="ui vertical segment">
+      <div className="ui vertical segment">
         <Button.Group>
           {
             editFormIsOpen &&
@@ -26,7 +26,7 @@ class BottomNav extends Component {
 
           {
             !editFormIsOpen &&
-            <Button onClick={this.preventDefault}>
+            <Button onClick={setNoDrink}>
               New Drink
             </Button>
           }
