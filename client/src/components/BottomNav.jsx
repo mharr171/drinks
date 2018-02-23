@@ -7,33 +7,35 @@ class BottomNav extends Component {
     this.state= {}
 
     this.preventDefault = this.preventDefault.bind(this)
+    this.newDrink = this.newDrink.bind(this)
+    this.editDrink = this.editDrink.bind(this)
   }
 
   render () {
     // Variables
-    let {editFormIsOpen} = this.props
+    let {editFormIsOpen, editingDrink} = this.props
     // Functions
-    let {setNoDrink} = this.props
+    let {setNoDrink, flip_editFormIsOpen} = this.props
     return (
       <div className="ui vertical segment">
         <Button.Group>
           {
-            editFormIsOpen &&
+            editingDrink && !editFormIsOpen &&
             <Button onClick={this.preventDefault}>
               Finish Editing
             </Button>
           }
 
           {
-            !editFormIsOpen &&
-            <Button onClick={setNoDrink}>
+            !editingDrink && !editFormIsOpen &&
+            <Button onClick={this.newDrink}>
               New Drink
             </Button>
           }
 
           {
-            !editFormIsOpen &&
-            <Button onClick={this.preventDefault}>
+            !editingDrink && !editFormIsOpen &&
+            <Button onClick={this.editDrink}>
               Edit Drink
             </Button>
           }
@@ -44,6 +46,15 @@ class BottomNav extends Component {
 
   preventDefault (e){
     e.preventDefault()
+  }
+
+  newDrink (){
+    this.props.setNoDrink()
+    this.props.flip_editFormIsOpen()
+  }
+
+  editDrink (){
+    this.props.flip_editingDrink()
   }
 }
 

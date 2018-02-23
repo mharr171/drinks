@@ -4,6 +4,7 @@ import Head from './components/Head.jsx';
 import DrinkList from './components/DrinkList.jsx';
 import Drink from './components/Drink.jsx';
 import NewDrink from './components/NewDrink.jsx';
+import EditDrink from './components/EditDrink.jsx';
 import BottomNav from './components/BottomNav.jsx';
 
 class App extends Component {
@@ -12,20 +13,25 @@ class App extends Component {
     this.state = {
       drinks: null,
       drink: null,
-      editFormIsOpen: false
+      editFormIsOpen: false,
+      editingDrink: false
     }
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
 
     this.post = this.post.bind(this)
-    this.postNewDrink = this.postNewDrink.bind(this)
+    this.postDrink = this.postDrink.bind(this)
+
+    this.patch = this.patch.bind(this)
+    this.patchDrink = this.patchDrink.bind(this)
 
     this.flip_editFormIsOpen = this.flip_editFormIsOpen.bind(this)
+    this.flip_editingDrink = this.flip_editingDrink.bind(this)
     this.setNoDrink = this.setNoDrink.bind(this)
   }
 
   render () {
-    let {drinks, drink, editFormIsOpen} = this.state
+    let {drinks, drink, editFormIsOpen, editingDrink} = this.state
     return drinks
     ? <Container text>
 
@@ -45,7 +51,7 @@ class App extends Component {
         <div className="ui hidden divider"></div>
 
         {
-          drink &&
+          drink && !editingDrink &&
           <Drink
             title={drink.title}
             source={drink.source}
@@ -56,9 +62,25 @@ class App extends Component {
         }
 
         {
+          drink && editingDrink &&
+          <EditDrink
+            drinkId={drink.id}
+            title={drink.title}
+            source={drink.source}
+            description={drink.description}
+            ingredients={drink.ingredients}
+            steps={drink.steps}
+            patch={this.patchDrink}
+            flip_editFormIsOpen={this.flip_editFormIsOpen}
+            flip_editingDrink={this.flip_editingDrink}
+          />
+        }
+
+        {
           !drink &&
           <NewDrink
-            post={this.postNewDrink}
+            post={this.postDrink}
+            flip_editFormIsOpen={this.flip_editFormIsOpen}
           />
         }
 
@@ -67,6 +89,9 @@ class App extends Component {
 
         <BottomNav
           editFormIsOpen={editFormIsOpen}
+          editingDrink={editingDrink}
+          flip_editFormIsOpen={this.flip_editFormIsOpen}
+          flip_editingDrink={this.flip_editingDrink}
           setNoDrink={this.setNoDrink}
         />
 
@@ -121,15 +146,47 @@ class App extends Component {
     return status
   }
 
-  async postNewDrink (endpoint, data) {
+  async postDrink (endpoint, data) {
     const status = await this.post(endpoint, data)
     if (status === 201){
       this.getDrinks();
     }
   }
 
+  async patch (endpoint, data) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const options = {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(data)
+    };
+
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+
+    return status
+  }
+
+  async patchDrink (endpoint, data, drinkId) {
+    const status = await this.patch(endpoint, data)
+    if (status === 202){
+      this.getDrink(drinkId)
+      return true
+    }else{
+      console.log('status: ' + status)
+      return false
+    }
+  }
+
   flip_editFormIsOpen () {
     (this.editFormIsOpen ? this.setState({editFormIsOpen:false}) : this.setState({editFormIsOpen:true}))
+  }
+
+  flip_editingDrink () {
+    (this.editingDrink ? this.setState({editingDrink:false}) : this.setState({editingDrink:true}))
   }
 
   setNoDrink (){

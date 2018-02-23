@@ -82,7 +82,7 @@ class NewDrink extends Component {
   }
 
   handleSubmit (e) {
-    e.preventDefault();
+    e.preventDefault()
 
     const data = {
       title: this.state.title,
@@ -91,7 +91,8 @@ class NewDrink extends Component {
       steps: this.state.steps
     };
 
-    this.props.post('api/drinks', data);
+    this.props.flip_editFormIsOpen()
+    this.props.post('api/drinks', data)
   }
 
 }
