@@ -173,6 +173,7 @@ class App extends Component {
   async patchDrink (endpoint, data, drinkId) {
     const status = await this.patch(endpoint, data)
     if (status === 202){
+      this.getDrinks()
       this.getDrink(drinkId)
       return true
     }else{
@@ -182,11 +183,11 @@ class App extends Component {
   }
 
   flip_editFormIsOpen () {
-    (this.editFormIsOpen ? this.setState({editFormIsOpen:false}) : this.setState({editFormIsOpen:true}))
+    (this.state.editFormIsOpen ? this.setState({editFormIsOpen:false}) : this.setState({editFormIsOpen:true}))
   }
 
   flip_editingDrink () {
-    (this.editingDrink ? this.setState({editingDrink:false}) : this.setState({editingDrink:true}))
+    (this.state.editingDrink ? this.setState({editingDrink:false}) : this.setState({editingDrink:true}))
   }
 
   setNoDrink (){

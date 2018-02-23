@@ -21,7 +21,7 @@ class BottomNav extends Component {
         <Button.Group>
           {
             editingDrink && !editFormIsOpen &&
-            <Button onClick={this.preventDefault}>
+            <Button onClick={this.editDrink}>
               Finish Editing
             </Button>
           }
@@ -29,14 +29,14 @@ class BottomNav extends Component {
           {
             !editingDrink && !editFormIsOpen &&
             <Button onClick={this.newDrink}>
-              New Drink
+              Create a Drink
             </Button>
           }
 
           {
             !editingDrink && !editFormIsOpen &&
             <Button onClick={this.editDrink}>
-              Edit Drink
+              Edit My Drinks
             </Button>
           }
         </Button.Group>
