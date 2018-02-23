@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import FormTitle from './FormTitle.jsx';
 import FormSource from './FormSource.jsx';
+import FormDescription from './FormDescription.jsx';
+import FormSteps from './FormSteps.jsx';
 import IngredientList from './IngredientList.jsx';
 
 class EditDrink extends Component {
@@ -8,15 +10,19 @@ class EditDrink extends Component {
     super(props)
     this.state= {
       editingTitle: false,
-      editingSource: false
+      editingSource: false,
+      editingDescription: false,
+      editingSteps: false
     }
 
     this.flip_editingTitle = this.flip_editingTitle.bind(this)
     this.flip_editingSource = this.flip_editingSource.bind(this)
+    this.flip_editingDescription = this.flip_editingDescription.bind(this)
+    this.flip_editingSteps = this.flip_editingSteps.bind(this)
   }
 
   render () {
-    let {editingTitle,editingSource} = this.state
+    let {editingTitle, editingSource, editingDescription, editingSteps} = this.state
     // Variables
     let {drinkId, title, source, description, ingredients, steps} = this.props
     // Functions
@@ -66,13 +72,26 @@ class EditDrink extends Component {
             </div>
           }
 
-
-          <div className="ui segment">
-            {
-              description &&
+          {
+            description && !editingDescription &&
+            <div className="ui segment" onClick={this.flip_editingDescription}>
+              <h5>Description</h5>
               <p>{description}</p>
-            }
-          </div>
+            </div>
+          }
+
+          {
+            description && editingDescription &&
+            <div className="ui segment">
+              <h5>Description</h5>
+              <FormDescription
+                drinkId={drinkId}
+                description={description}
+                patch={patch}
+                flip_editingDescription={this.flip_editingDescription}
+              />
+            </div>
+          }
 
           <div className="ui segment">
             <IngredientList
@@ -80,12 +99,26 @@ class EditDrink extends Component {
             />
           </div>
 
-          <div className="ui segment">
-            {
-              steps &&
+          {
+            steps && !editingSteps &&
+            <div className="ui segment" onClick={this.flip_editingSteps}>
+              <h5>Steps</h5>
               <p>{steps}</p>
-            }
-          </div>
+            </div>
+          }
+
+          {
+            steps && editingSteps &&
+            <div className="ui segment">
+              <h5>Steps</h5>
+              <FormSteps
+                drinkId={drinkId}
+                steps={steps}
+                patch={patch}
+                flip_editingSteps={this.flip_editingSteps}
+              />
+            </div>
+          }
 
         </div>
     )
@@ -97,6 +130,14 @@ class EditDrink extends Component {
   }
   flip_editingSource (){
     this.state.editingSource ? this.setState({editingSource:false}) : this.setState({editingSource:true})
+    this.props.flip_editFormIsOpen()
+  }
+  flip_editingDescription (){
+    this.state.editingDescription ? this.setState({editingDescription:false}) : this.setState({editingDescription:true})
+    this.props.flip_editFormIsOpen()
+  }
+  flip_editingSteps (){
+    this.state.editingSteps ? this.setState({editingSteps:false}) : this.setState({editingSteps:true})
     this.props.flip_editFormIsOpen()
   }
 }
