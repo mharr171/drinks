@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Segment } from 'semantic-ui-react'
 import EditTitle from '../form/EditTitle.jsx'
+import EditSource from '../form/EditSource.jsx'
 
 class EditDrink extends Component {
   constructor (props){
@@ -19,14 +20,18 @@ class EditDrink extends Component {
           patch={this.props.patch}
         />
 
-        <Segment>
-          Source
-        </Segment>
+        <EditSource
+          source={this.props.drink.source}
+          drinkId={this.props.drink.id}
+          makingEdit={this.props.makingEdit}
+          click_editField={this.props.click_editField}
+          patch={this.props.patch}
+        />
 
         <Segment>
           Description
         </Segment>
-        
+
         <Segment>
           Steps
         </Segment>
