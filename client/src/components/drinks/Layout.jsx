@@ -9,9 +9,9 @@ class Layout extends Component {
   constructor (props){
     super(props)
     this.state = {
-      drinks: null,
-      drink: null,
-      showDrink : false,
+      drinks : null,
+      drink : null,
+      showDrink : true,
       newDrink : false,
       editDrink : false,
       makingEdit : false,
@@ -20,6 +20,9 @@ class Layout extends Component {
 
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
+
+    this.click_newDrinkButton = this.click_newDrinkButton.bind(this)
+    this.click_editDrinkButton = this.click_editDrinkButton.bind(this)
   }
 
   componentDidMount () {
@@ -27,8 +30,9 @@ class Layout extends Component {
   }
 
   render () {
-    let {drinks, drink} = this.state
+    let {drinks, drink, showDrink, newDrink, editDrink, makingEdit, newIngredient} = this.state
     return drinks
+
     ? <Grid column={1}>
         <Grid.Row>
           <Head />
@@ -38,18 +42,32 @@ class Layout extends Component {
           <DrinkBar
             drinks={drinks}
             drink={drink}
+            showDrink={showDrink}
             getDrink={this.getDrink}
           />
         </Grid.Row>
 
         <Grid.Row>
-          <Body />
+          <Body
+            drink={drink}
+            showDrink={showDrink}
+            newDrink={newDrink}
+            editDrink={editDrink}
+          />
         </Grid.Row>
 
         <Grid.Row>
-          <Navbar />
+          <Navbar
+            showDrink={showDrink}
+            newDrink={newDrink}
+            makingEdit={makingEdit}
+            editDrink={editDrink}
+            click_newDrinkButton={this.click_newDrinkButton}
+            click_editDrinkButton={this.click_editDrinkButton}
+          />
         </Grid.Row>
       </Grid>
+
     : <Grid>
         <Dimmer active inverted>
           <Loader content='Loading' />
@@ -77,6 +95,34 @@ class Layout extends Component {
   getDrink (id) {
     this.fetch(`api/drinks/${id}`)
       .then(drink => this.setState({drink: drink}))
+  }
+
+  click_newDrinkButton () {
+    this.flip_showDrink()
+    this.flip_newDrink()
+  }
+
+  click_editDrinkButton () {
+    this.flip_showDrink()
+    this.flip_editDrink()
+  }
+
+  flip_showDrink () {
+    this.state.showDrink
+    ? this.setState({showDrink:false})
+    : this.setState({showDrink:true})
+  }
+
+  flip_newDrink () {
+    this.state.newDrink
+    ? this.setState({newDrink:false})
+    : this.setState({newDrink:true})
+  }
+
+  flip_editDrink () {
+    this.state.editDrink
+    ? this.setState({editDrink:false})
+    : this.setState({editDrink:true})
   }
 }
 
