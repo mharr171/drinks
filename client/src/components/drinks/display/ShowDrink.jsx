@@ -8,10 +8,31 @@ class ShowDrink extends Component {
   }
 
   render () {
+    let {title,source,description,steps} = this.props
     return (
-      <Segment.Group>
-        <p>ShowDrink.jsx</p>
-      </Segment.Group>
+      <div className="ui segments">
+          <div className="ui segment">
+            {
+              title &&
+              <a href={source}>
+                <h1>{title}</h1>
+              </a>
+            }
+          </div>
+          <div className="ui segment">
+            {
+              description &&
+              <p>{description}</p>
+            }
+          </div>
+
+          <div className="ui segment">
+            {
+              steps &&
+              <p>{steps}</p>
+            }
+          </div>
+        </div>
     );
   }
 }

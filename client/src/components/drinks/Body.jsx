@@ -13,27 +13,36 @@ class Body extends Component {
   render () {
     return (
       <Grid.Column>
-        { display(this.props) }
+        { this.display() }
       </Grid.Column>
     );
   }
-}
 
-function display(props) {
-  if (props.showDrink){
-    return (
-      <ShowDrink/>
-    );
-  }else if (props.editDrink){
-    return (
-      <EditDrink/>
-    );
-  }else if (props.newDrink){
-    return (
-      <NewDrink/>
-    );
+  display () {
+    if (this.props.showDrink){
+      return (
+        <ShowDrink
+          title={this.props.drink.title}
+          source={this.props.drink.source}
+          description={this.props.drink.description}
+          steps={this.props.drink.steps}
+        />
+      );
+    }else if (this.props.editDrink){
+      return (
+        <EditDrink/>
+      );
+    }else if (this.props.newDrink){
+      return (
+        <NewDrink
+          post={this.props.postDrink}
+        />
+      );
+    }
   }
 
 }
+
+
 
 export default Body

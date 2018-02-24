@@ -21,6 +21,8 @@ class Layout extends Component {
     this.getDrinks = this.getDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
 
+    this.postDrink = this.postDrink.bind(this)
+
     this.click_newDrinkButton = this.click_newDrinkButton.bind(this)
     this.click_editDrinkButton = this.click_editDrinkButton.bind(this)
   }
@@ -39,21 +41,28 @@ class Layout extends Component {
         </Grid.Row>
 
         <Grid.Row>
-          <DrinkBar
-            drinks={drinks}
-            drink={drink}
-            showDrink={showDrink}
-            getDrink={this.getDrink}
-          />
+          {
+            drinks && drink &&
+            <DrinkBar
+              drinks={drinks}
+              drink={drink}
+              showDrink={showDrink}
+              getDrink={this.getDrink}
+            />
+          }
         </Grid.Row>
 
         <Grid.Row>
-          <Body
-            drink={drink}
-            showDrink={showDrink}
-            newDrink={newDrink}
-            editDrink={editDrink}
-          />
+          {
+            drink &&
+            <Body
+              drink={drink}
+              showDrink={showDrink}
+              newDrink={newDrink}
+              editDrink={editDrink}
+              postDrink={this.postDrink}
+            />
+          }
         </Grid.Row>
 
         <Grid.Row>
@@ -82,6 +91,32 @@ class Layout extends Component {
       .then(json => resolve(json))
       .catch(error => reject(error))
     })
+  }
+
+  async post (endpoint, data) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const options = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
+    };
+
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+
+    return status
+  }
+
+  async postDrink (endpoint, data) {
+    const status = await this.post(endpoint, data)
+    if (status === 201){
+      this.getDrinks();
+      this.flip_showDrink();
+      this.flip_newDrink();
+    }
   }
 
   getDrinks () {
