@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Segment } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import ShowDrink from './display/ShowDrink.jsx'
 import EditDrink from './display/EditDrink.jsx'
 import NewDrink from './display/NewDrink.jsx'

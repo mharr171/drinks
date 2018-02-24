@@ -8,7 +8,6 @@ class DrinkBar extends Component {
   }
 
   render () {
-    let {drinks} = this.props
     return (
       <Grid.Column>
         { Buttons(this.props) }

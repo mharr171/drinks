@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Responsive, Grid, Segment, Form, Button } from 'semantic-ui-react'
+import { Grid, Segment, Form, Button } from 'semantic-ui-react'
 
 class EditSteps extends Component {
   constructor (props){
@@ -15,8 +15,6 @@ class EditSteps extends Component {
   }
 
   render () {
-    let {steps, showForm} = this.state
-    let {drinkId, patch, makingEdit} = this.props
     return (
       <Segment>
         <h5>Steps</h5>
