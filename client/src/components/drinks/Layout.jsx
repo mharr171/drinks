@@ -11,9 +11,9 @@ class Layout extends Component {
     this.state = {
       drinks : null,
       drink : null,
-      showDrink : true,
+      showDrink : false,
       newDrink : false,
-      editDrink : false,
+      editDrink : true,
       makingEdit : false,
       newIngredient : false
     }
@@ -22,9 +22,11 @@ class Layout extends Component {
     this.getDrink = this.getDrink.bind(this)
 
     this.postDrink = this.postDrink.bind(this)
+    this.patchDrink = this.patchDrink.bind(this)
 
     this.click_newDrinkButton = this.click_newDrinkButton.bind(this)
     this.click_editDrinkButton = this.click_editDrinkButton.bind(this)
+    this.click_editField = this.click_editField.bind(this)
   }
 
   componentDidMount () {
@@ -60,7 +62,10 @@ class Layout extends Component {
               showDrink={showDrink}
               newDrink={newDrink}
               editDrink={editDrink}
+              makingEdit={makingEdit}
               postDrink={this.postDrink}
+              patchDrink={this.patchDrink}
+              click_editField={this.click_editField}
             />
           }
         </Grid.Row>
@@ -119,6 +124,35 @@ class Layout extends Component {
     }
   }
 
+  async patch (endpoint, data) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const options = {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(data)
+    };
+
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+
+    return status
+  }
+
+  async patchDrink (endpoint, data, drinkId) {
+    const status = await this.patch(endpoint, data)
+    if (status === 202){
+      this.getDrinks()
+      this.getDrink(drinkId)
+      return true
+    }else{
+      console.log('status: ' + status)
+      return false
+    }
+  }
+
   getDrinks () {
     this.fetch('api/drinks')
       .then(drinks => {
@@ -142,6 +176,10 @@ class Layout extends Component {
     this.flip_editDrink()
   }
 
+  click_editField () {
+    this.flip_makingEdit()
+  }
+
   flip_showDrink () {
     this.state.showDrink
     ? this.setState({showDrink:false})
@@ -158,6 +196,12 @@ class Layout extends Component {
     this.state.editDrink
     ? this.setState({editDrink:false})
     : this.setState({editDrink:true})
+  }
+
+  flip_makingEdit () {
+    this.state.makingEdit
+    ? this.setState({makingEdit:false})
+    : this.setState({makingEdit:true})
   }
 }
 

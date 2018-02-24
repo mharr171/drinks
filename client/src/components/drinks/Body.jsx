@@ -30,7 +30,12 @@ class Body extends Component {
       );
     }else if (this.props.editDrink){
       return (
-        <EditDrink/>
+        <EditDrink
+          drink={this.props.drink}
+          makingEdit={this.props.makingEdit}
+          patch={this.props.patchDrink}
+          click_editField={this.props.click_editField}
+        />
       );
     }else if (this.props.newDrink){
       return (
