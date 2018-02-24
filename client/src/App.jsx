@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import './App.css'
 import { Container } from 'semantic-ui-react'
-import Drink from './components/drinks/Drink.jsx';
+import DrinkView from './components/drinks/Layout.jsx';
 
 class App extends Component {
   constructor () {
@@ -15,7 +16,7 @@ class App extends Component {
   render () {
     return(
       <Container>
-        <Drink />
+        <DrinkView />
       </Container>
     );
   }
