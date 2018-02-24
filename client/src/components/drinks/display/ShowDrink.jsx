@@ -8,7 +8,7 @@ class ShowDrink extends Component {
   }
 
   render () {
-    let {title,source,description,steps} = this.props
+    let {title,source,ingredients,description,steps} = this.props
     return (
       <Segment.Group>
           <Segment>
@@ -23,6 +23,20 @@ class ShowDrink extends Component {
             {
               description &&
               <p>{description}</p>
+            }
+          </Segment>
+          <Segment>
+            {
+              ingredients &&
+              <Segment.Group>
+                {Object.keys(ingredients).map((key) => {
+                  return (
+                    <Segment key={key}>
+                      <p>{ingredients[key].description}</p>
+                    </Segment>
+                  )})
+                }
+              </Segment.Group>
             }
           </Segment>
           <Segment>

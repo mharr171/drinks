@@ -24,6 +24,7 @@ class Body extends Component {
         <ShowDrink
           title={this.props.drink.title}
           source={this.props.drink.source}
+          ingredients={this.props.drink.ingredients}
           description={this.props.drink.description}
           steps={this.props.drink.steps}
         />

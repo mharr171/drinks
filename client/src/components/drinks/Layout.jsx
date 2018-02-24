@@ -11,9 +11,9 @@ class Layout extends Component {
     this.state = {
       drinks : null,
       drink : null,
-      showDrink : false,
+      showDrink : true,
       newDrink : false,
-      editDrink : true,
+      editDrink : false,
       makingEdit : false,
       newIngredient : false
     }
@@ -119,7 +119,7 @@ class Layout extends Component {
     const status = await this.post(endpoint, data)
     if (status === 201){
       this.getDrinks();
-      this.flip_showDrink();
+      this.flip_editDrink();
       this.flip_newDrink();
     }
   }
