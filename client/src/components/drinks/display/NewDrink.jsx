@@ -23,22 +23,41 @@ class NewDrink extends Component {
       <Form onSubmit={this.handleSubmit}>
         <div className="field">
           <label>Title:</label>
-          <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
-        </div>
-
-        <div className="field">
-          <label>Description:</label>
-          <textarea rows="4" value={this.state.description} onChange={this.handleDescriptionChange} />
-        </div>
-
-        <div className="field">
-          <label>Steps:</label>
-          <textarea rows="4" value={this.state.steps} onChange={this.handleStepsChange} />
+          <input
+            type="text"
+            placeholder="Name your drink"
+            value={this.state.title}
+            onChange={this.handleTitleChange} />
         </div>
 
         <div className="field">
           <label>Source:</label>
-          <input type="text" value={this.state.source} onChange={this.handleSourceChange} />
+          <input
+            type="text"
+            placeholder="url"
+            value={this.state.source}
+            onChange={this.handleSourceChange} />
+        </div>
+
+        <div className="field">
+          <label>Description:</label>
+          <textarea
+            rows="4"
+            placeholder="Give your drink a description"
+            value={this.state.description}
+            onChange={this.handleDescriptionChange} />
+        </div>
+
+        <h5>Ingredients</h5>
+        <p>We'll handle these details in the step, don't worry!</p>
+
+        <div className="field">
+          <label>Steps:</label>
+          <textarea
+            rows="4"
+            placeholder="Step by step, how do you concoct your masterpiece?"
+            value={this.state.steps}
+            onChange={this.handleStepsChange} />
         </div>
 
         <Button type="submit" className="ui-button">Submit</Button>
