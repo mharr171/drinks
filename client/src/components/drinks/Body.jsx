@@ -33,8 +33,10 @@ class Body extends Component {
       return (
         <EditDrink
           drink={this.props.drink}
+          ingredients={this.props.drink.ingredients}
           makingEdit={this.props.makingEdit}
           patch={this.props.patchDrink}
+          updateDrinks={this.props.updateDrinks}
           click_editField={this.props.click_editField}
         />
       );

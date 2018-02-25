@@ -42,6 +42,22 @@ class EditDrink extends Component {
         <Segment>
           <h5>Ingredients</h5>
           <Segment.Group>
+            {
+              this.props.ingredients.map((ingredient, key) => {
+                return (
+                  <Segment key={key}>
+                    <EditIngredient
+                      drinkId={this.props.drink.id}
+                      drink={this.props.drink}
+                      ingredient={ingredient}
+                      updateDrinks={this.props.updateDrinks}
+                      click_editField={this.props.click_editField}
+                      patch={this.props.patch}
+                    />
+                  </Segment>
+                )
+              })
+            }
             {newIngredientButton(this.props)}
           </Segment.Group>
         </Segment>
@@ -59,15 +75,13 @@ class EditDrink extends Component {
 }
 
 function newIngredientButton(props) {
-	if (!props.makingEdit){
-    return (
-      <Segment>
-        <Button onClick={props.click_newIngredientButton}>
-          Add Ingredient
-        </Button>
-      </Segment>
-    );
-  }
+  return (
+    <Segment>
+      <Button disabled={props.makingEdit} onClick={props.click_newIngredientButton}>
+        Add Ingredient
+      </Button>
+    </Segment>
+  );
 }
 
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Segment, Form, Button } from 'semantic-ui-react'
+import { Grid, Form, Button } from 'semantic-ui-react'
 
 class EditIngredient extends Component {
   constructor (props){
@@ -76,7 +76,9 @@ class EditIngredient extends Component {
     e.preventDefault()
 
     const data = {description: this.state.description};
-    const patched = await this.props.patch(`api/ingredients/${this.props.ingredientId}`, data, this.props.ingredientId)
+    const patched = await this.props.patch(`api/ingredients/${this.props.ingredient.id}`, data, this.props.drinkId)
+
+    this.props.updateDrinks(this.props.drinkId);
 
     if (patched){
       this.editField()

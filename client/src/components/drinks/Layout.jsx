@@ -19,6 +19,7 @@ class Layout extends Component {
     }
 
     this.getDrinks = this.getDrinks.bind(this)
+    this.updateDrinks = this.updateDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
 
     this.postDrink = this.postDrink.bind(this)
@@ -65,6 +66,7 @@ class Layout extends Component {
               makingEdit={makingEdit}
               postDrink={this.postDrink}
               patchDrink={this.patchDrink}
+              updateDrinks={this.updateDrinks}
               click_editField={this.click_editField}
             />
           }
@@ -144,8 +146,8 @@ class Layout extends Component {
   async patchDrink (endpoint, data, drinkId) {
     const status = await this.patch(endpoint, data)
     if (status === 202){
-      this.getDrinks()
-      this.getDrink(drinkId)
+      await this.getDrinks()
+      await this.getDrink(drinkId)
       return true
     }else{
       console.log('status: ' + status)
@@ -158,6 +160,14 @@ class Layout extends Component {
       .then(drinks => {
         this.setState({drinks: drinks})
         this.getDrink(drinks[0].id)
+      })
+  }
+
+  updateDrinks (drinkId) {
+    this.fetch('api/drinks')
+      .then(drinks => {
+        this.setState({drinks: drinks})
+        this.getDrink(drinkId)
       })
   }
 
