@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Button } from 'semantic-ui-react'
 import EditTitle from '../form/EditTitle.jsx'
 import EditSource from '../form/EditSource.jsx'
+import EditIngredient from '../form/EditIngredient.jsx'
 import EditDescription from '../form/EditDescription.jsx'
 import EditSteps from '../form/EditSteps.jsx'
 
@@ -38,6 +39,13 @@ class EditDrink extends Component {
           patch={this.props.patch}
         />
 
+        <Segment>
+          <h5>Ingredients</h5>
+          <Segment.Group>
+            {newIngredientButton(this.props)}
+          </Segment.Group>
+        </Segment>
+
         <EditSteps
           steps={this.props.drink.steps}
           drinkId={this.props.drink.id}
@@ -49,5 +57,18 @@ class EditDrink extends Component {
     );
   }
 }
+
+function newIngredientButton(props) {
+	if (!props.makingEdit){
+    return (
+      <Segment>
+        <Button onClick={props.click_newIngredientButton}>
+          Add Ingredient
+        </Button>
+      </Segment>
+    );
+  }
+}
+
 
 export default EditDrink
