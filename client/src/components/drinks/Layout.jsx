@@ -25,8 +25,10 @@ class Layout extends Component {
     this.postDrink = this.postDrink.bind(this)
     this.postIngredient = this.postIngredient.bind(this)
     this.patchDrink = this.patchDrink.bind(this)
+    this.delete = this.delete.bind(this)
 
     this.click_newDrinkButton = this.click_newDrinkButton.bind(this)
+    this.click_deleteDrinkButton = this.click_deleteDrinkButton.bind(this)
     this.click_editDrinkButton = this.click_editDrinkButton.bind(this)
     this.click_editField = this.click_editField.bind(this)
     this.click_newIngredientButton = this.click_newIngredientButton.bind(this)
@@ -86,6 +88,7 @@ class Layout extends Component {
             makingEdit={makingEdit}
             editDrink={editDrink}
             click_newDrinkButton={this.click_newDrinkButton}
+            click_deleteDrinkButton={this.click_deleteDrinkButton}
             click_editDrinkButton={this.click_editDrinkButton}
           />
         </Grid.Row>
@@ -171,6 +174,26 @@ class Layout extends Component {
     }
   }
 
+  async delete (endpoint) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const options = {
+      method: 'DELETE',
+      headers
+    };
+
+    const request = new Request(endpoint, options);
+    const response = await fetch(request);
+    const status = await response.status;
+
+    if (status === 204){
+      this.getDrinks()
+      this.flip_showDrink()
+      this.flip_editDrink()
+    }
+  }
+
   getDrinks () {
     this.fetch('api/drinks')
       .then(drinks => {
@@ -195,6 +218,10 @@ class Layout extends Component {
   click_newDrinkButton () {
     this.flip_showDrink()
     this.flip_newDrink()
+  }
+
+  click_deleteDrinkButton () {
+    this.delete('api/drinks/'+this.state.drink.id)
   }
 
   click_editDrinkButton () {

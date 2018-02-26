@@ -14,6 +14,7 @@ class Navbar extends Component {
         { cancelButton(this.props) }
         { editDrinkButton(this.props) }
         { finishButton(this.props) }
+        { deleteButton(this.props) }
       </Grid.Column>
     );
   }
@@ -56,12 +57,24 @@ function editDrinkButton(props) {
 }
 
 function finishButton(props) {
-	if (props.editDrink && !props.makingEdit){
+  if (props.editDrink && !props.makingEdit){
     return (
       <Button
         onClick={props.click_editDrinkButton}
       >
         Finish
+      </Button>
+    );
+  }
+}
+
+function deleteButton(props) {
+  if (props.editDrink && !props.makingEdit){
+    return (
+      <Button
+        onClick={props.click_deleteDrinkButton}
+      >
+        Delete Drink
       </Button>
     );
   }
