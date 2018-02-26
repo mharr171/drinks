@@ -63,7 +63,7 @@ class EditIngredient extends Component {
       );
     } else {
       return (
-        <p>{this.state.description}{this.props.ingredient.description}</p>
+        <p>{this.state.description}</p>
       );
     }
   }

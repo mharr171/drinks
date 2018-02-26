@@ -49,6 +49,7 @@ class EditDrink extends Component {
                     <EditIngredient
                       drinkId={this.props.drink.id}
                       drink={this.props.drink}
+                      makingEdit={this.props.makingEdit}
                       ingredient={ingredient}
                       updateDrinks={this.props.updateDrinks}
                       click_editField={this.props.click_editField}
