@@ -3,6 +3,7 @@ import { Segment, Button } from 'semantic-ui-react'
 import EditTitle from '../form/EditTitle.jsx'
 import EditSource from '../form/EditSource.jsx'
 import EditIngredient from '../form/EditIngredient.jsx'
+import NewIngredient from '../form/NewIngredient.jsx'
 import EditDescription from '../form/EditDescription.jsx'
 import EditSteps from '../form/EditSteps.jsx'
 
@@ -42,6 +43,7 @@ class EditDrink extends Component {
         <Segment>
           <h5>Ingredients</h5>
           <Segment.Group>
+
             {
               this.props.ingredients.map((ingredient, key) => {
                 return (
@@ -53,13 +55,25 @@ class EditDrink extends Component {
                       ingredient={ingredient}
                       updateDrinks={this.props.updateDrinks}
                       click_editField={this.props.click_editField}
+                      click_cancelEditIngredientButton={this.props.click_cancelEditIngredientButton}
                       patch={this.props.patch}
                     />
                   </Segment>
                 )
               })
             }
-            {newIngredientButton(this.props)}
+
+            {
+              this.props.newIngredient &&
+              <NewIngredient
+                drinkId={this.props.drink.id}
+                post={this.props.post}
+                click_cancelNewIngredientButton={this.props.click_newIngredientButton}
+              />
+            }
+
+            { newIngredientButton(this.props) }
+
           </Segment.Group>
         </Segment>
 

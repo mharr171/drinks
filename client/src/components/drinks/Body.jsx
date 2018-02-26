@@ -34,10 +34,14 @@ class Body extends Component {
         <EditDrink
           drink={this.props.drink}
           ingredients={this.props.drink.ingredients}
+          newIngredient={this.props.newIngredient}
           makingEdit={this.props.makingEdit}
           patch={this.props.patchDrink}
+          post={this.props.postIngredient}
           updateDrinks={this.props.updateDrinks}
           click_editField={this.props.click_editField}
+          click_newIngredientButton={this.props.click_newIngredientButton}
+          click_cancelEditIngredientButton={this.props.click_cancelEditIngredientButton}
         />
       );
     }else if (this.props.newDrink){

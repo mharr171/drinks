@@ -9,6 +9,7 @@ class EditSource extends Component {
       showForm: false
     }
 
+    this.cancel = this.cancel.bind(this)
     this.editField = this.editField.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -52,7 +53,7 @@ class EditSource extends Component {
                 <Button type='submit'>Save</Button>
               </Grid.Column>
               <Grid.Column width={8} computer={2} textAlign='center'>
-                <Button>Cancel</Button>
+                <Button onClick={this.cancel}>Cancel</Button>
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -84,6 +85,11 @@ class EditSource extends Component {
     } else {
       console.log('Error patching source')
     }
+  }
+
+  cancel () {
+    this.editField();
+    this.setState({source:this.props.source});
   }
 
   editField () {

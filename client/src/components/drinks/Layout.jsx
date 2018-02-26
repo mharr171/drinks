@@ -23,11 +23,14 @@ class Layout extends Component {
     this.getDrink = this.getDrink.bind(this)
 
     this.postDrink = this.postDrink.bind(this)
+    this.postIngredient = this.postIngredient.bind(this)
     this.patchDrink = this.patchDrink.bind(this)
 
     this.click_newDrinkButton = this.click_newDrinkButton.bind(this)
     this.click_editDrinkButton = this.click_editDrinkButton.bind(this)
     this.click_editField = this.click_editField.bind(this)
+    this.click_newIngredientButton = this.click_newIngredientButton.bind(this)
+    this.click_cancelEditIngredientButton = this.click_cancelEditIngredientButton.bind(this)
   }
 
   componentDidMount () {
@@ -62,12 +65,16 @@ class Layout extends Component {
               drink={drink}
               showDrink={showDrink}
               newDrink={newDrink}
+              newIngredient={newIngredient}
               editDrink={editDrink}
               makingEdit={makingEdit}
               postDrink={this.postDrink}
+              postIngredient={this.postIngredient}
               patchDrink={this.patchDrink}
               updateDrinks={this.updateDrinks}
               click_editField={this.click_editField}
+              click_newIngredientButton={this.click_newIngredientButton}
+              click_cancelEditIngredientButton={this.click_cancelEditIngredientButton}
             />
           }
         </Grid.Row>
@@ -123,6 +130,15 @@ class Layout extends Component {
       this.getDrinks();
       this.flip_editDrink();
       this.flip_newDrink();
+    }
+  }
+
+  async postIngredient (endpoint, data, drinkId) {
+    const status = await this.post(endpoint, data)
+    if (status === 201){
+      this.getDrink(drinkId);
+      this.flip_makingEdit();
+      this.flip_newIngredient();
     }
   }
 
@@ -190,6 +206,16 @@ class Layout extends Component {
     this.flip_makingEdit()
   }
 
+  click_newIngredientButton () {
+    this.flip_makingEdit()
+    this.flip_newIngredient()
+  }
+
+  click_cancelEditIngredientButton () {
+    this.flip_makingEdit()
+    this.flip_newIngredient()
+  }
+
   flip_showDrink () {
     this.state.showDrink
     ? this.setState({showDrink:false})
@@ -200,6 +226,12 @@ class Layout extends Component {
     this.state.newDrink
     ? this.setState({newDrink:false})
     : this.setState({newDrink:true})
+  }
+
+  flip_newIngredient () {
+    this.state.newIngredient
+    ? this.setState({newIngredient:false})
+    : this.setState({newIngredient:true})
   }
 
   flip_editDrink () {
