@@ -65,14 +65,19 @@ class EditDrink extends Component {
 
             {
               this.props.newIngredient &&
-              <NewIngredient
-                drinkId={this.props.drink.id}
-                post={this.props.post}
-                click_cancelNewIngredientButton={this.props.click_newIngredientButton}
-              />
+              <Segment>
+                <NewIngredient
+                  drinkId={this.props.drink.id}
+                  post={this.props.post}
+                  click_cancelNewIngredientButton={this.props.click_newIngredientButton}
+                />
+              </Segment>
             }
 
-            { newIngredientButton(this.props) }
+            {
+              !this.props.makingEdit &&
+              <Segment>{ newIngredientButton(this.props) }</Segment>
+            }
 
           </Segment.Group>
         </Segment>
@@ -91,11 +96,9 @@ class EditDrink extends Component {
 
 function newIngredientButton(props) {
   return (
-    <Segment>
-      <Button disabled={props.makingEdit} onClick={props.click_newIngredientButton}>
-        Add Ingredient
-      </Button>
-    </Segment>
+    <Button disabled={props.makingEdit} onClick={props.click_newIngredientButton}>
+      Add Ingredient
+    </Button>
   );
 }
 
