@@ -26,6 +26,7 @@ class Layout extends Component {
     this.postIngredient = this.postIngredient.bind(this)
     this.patchDrink = this.patchDrink.bind(this)
     this.delete = this.delete.bind(this)
+    this.deleteDrink = this.deleteDrink.bind(this)
 
     this.click_newDrinkButton = this.click_newDrinkButton.bind(this)
     this.click_deleteDrinkButton = this.click_deleteDrinkButton.bind(this)
@@ -187,10 +188,17 @@ class Layout extends Component {
     const response = await fetch(request);
     const status = await response.status;
 
+    return status
+  }
+
+  async deleteDrink (endpoint) {
+    const status = await this.delete(endpoint)
     if (status === 204){
       this.getDrinks()
       this.flip_showDrink()
       this.flip_editDrink()
+    }else{
+      console.log('status: ' + status)
     }
   }
 
@@ -221,7 +229,7 @@ class Layout extends Component {
   }
 
   click_deleteDrinkButton () {
-    this.delete('api/drinks/'+this.state.drink.id)
+    this.deleteDrink('api/drinks/'+this.state.drink.id)
   }
 
   click_editDrinkButton () {
