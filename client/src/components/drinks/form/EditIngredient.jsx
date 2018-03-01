@@ -24,7 +24,7 @@ class EditIngredient extends Component {
   }
 
   componentDidMount () {
-    this.setState({description: this.props.ingredient.description, showForm: false})
+    this.setState({description: this.props.description, showForm: false})
   }
 
   form (props) {
@@ -60,7 +60,16 @@ class EditIngredient extends Component {
       );
     } else if (!props.makingEdit){
       return (
-        <p onClick={this.editField}>{this.state.description}</p>
+        <Grid columns={16}>
+          <Grid.Row>
+            <Grid.Column width={16} computer={14}>
+              <p onClick={this.editField}>{this.state.description}</p>
+            </Grid.Column>
+            <Grid.Column width={16} computer={2} textAlign='center'>
+              <Button onClick={ this.props.click_deleteIngredientButton.bind(this, this.props.id, this.props.description)}>Delete</Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       );
     } else {
       return (
@@ -77,7 +86,7 @@ class EditIngredient extends Component {
     e.preventDefault()
 
     const data = {description: this.state.description};
-    const patched = await this.props.patch(`api/ingredients/${this.props.ingredient.id}`, data, this.props.drinkId)
+    const patched = await this.props.patch(`api/ingredients/${this.props.id}`, data, this.props.drinkId)
 
     this.props.updateDrinks(this.props.drinkId);
 
@@ -90,7 +99,7 @@ class EditIngredient extends Component {
 
   cancel () {
     this.editField();
-    this.setState({description:this.props.ingredient.description});
+    this.setState({description:this.props.description});
   }
 
   editField () {

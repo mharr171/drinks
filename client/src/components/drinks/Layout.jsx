@@ -11,6 +11,7 @@ class Layout extends Component {
     this.state = {
       drinks : null,
       drink : null,
+      ingredients : [],
       showDrink : true,
       newDrink : false,
       editDrink : false,
@@ -21,12 +22,14 @@ class Layout extends Component {
     this.getDrinks = this.getDrinks.bind(this)
     this.updateDrinks = this.updateDrinks.bind(this)
     this.getDrink = this.getDrink.bind(this)
+    this.getIngredients = this.getIngredients.bind(this)
 
     this.postDrink = this.postDrink.bind(this)
     this.postIngredient = this.postIngredient.bind(this)
     this.patchDrink = this.patchDrink.bind(this)
     this.delete = this.delete.bind(this)
     this.deleteDrink = this.deleteDrink.bind(this)
+    this.deleteIngredient = this.deleteIngredient.bind(this)
 
     this.click_newDrinkButton = this.click_newDrinkButton.bind(this)
     this.click_deleteDrinkButton = this.click_deleteDrinkButton.bind(this)
@@ -34,6 +37,7 @@ class Layout extends Component {
     this.click_editField = this.click_editField.bind(this)
     this.click_newIngredientButton = this.click_newIngredientButton.bind(this)
     this.click_cancelEditIngredientButton = this.click_cancelEditIngredientButton.bind(this)
+    this.click_deleteIngredientButton = this.click_deleteIngredientButton.bind(this)
   }
 
   componentDidMount () {
@@ -41,7 +45,7 @@ class Layout extends Component {
   }
 
   render () {
-    let {drinks, drink, showDrink, newDrink, editDrink, makingEdit, newIngredient} = this.state
+    let {drinks, drink, ingredients, showDrink, newDrink, editDrink, makingEdit, newIngredient} = this.state
     return drinks
 
     ? <Grid column={1}>
@@ -66,6 +70,7 @@ class Layout extends Component {
             drink &&
             <Body
               drink={drink}
+              ingredients={ingredients}
               showDrink={showDrink}
               newDrink={newDrink}
               newIngredient={newIngredient}
@@ -78,6 +83,7 @@ class Layout extends Component {
               click_editField={this.click_editField}
               click_newIngredientButton={this.click_newIngredientButton}
               click_cancelEditIngredientButton={this.click_cancelEditIngredientButton}
+              click_deleteIngredientButton={this.click_deleteIngredientButton}
             />
           }
         </Grid.Row>
@@ -198,7 +204,18 @@ class Layout extends Component {
       this.flip_showDrink()
       this.flip_editDrink()
     }else{
-      console.log('status: ' + status)
+      console.log('error! status: ' + status)
+    }
+  }
+
+  async deleteIngredient (id,description) {
+    console.log(id);
+    console.log(description);
+    const status = await this.delete('api/ingredients/' + id)
+    if (status === 204){
+      this.getDrinks()
+    }else{
+      console.log('error! status: ' + status)
     }
   }
 
@@ -220,7 +237,15 @@ class Layout extends Component {
 
   getDrink (id) {
     this.fetch(`api/drinks/${id}`)
-      .then(drink => this.setState({drink: drink}))
+      .then(drink => {
+        this.setState({drink: drink})
+        this.getIngredients()
+      })
+  }
+
+  getIngredients () {
+    let i = this.state.drink.ingredients.map(i => [i.id,i.description]);
+    this.setState({ingredients:i})
   }
 
   click_newDrinkButton () {
@@ -230,6 +255,10 @@ class Layout extends Component {
 
   click_deleteDrinkButton () {
     this.deleteDrink('api/drinks/'+this.state.drink.id)
+  }
+
+  click_deleteIngredientButton (endpoint, ingredient) {
+    this.deleteIngredient(endpoint, ingredient);
   }
 
   click_editDrinkButton () {

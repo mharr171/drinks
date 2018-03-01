@@ -47,15 +47,17 @@ class EditDrink extends Component {
             {
               this.props.ingredients.map((ingredient, key) => {
                 return (
-                  <Segment key={key}>
+                  <Segment key={ingredient[1]}>
                     <EditIngredient
+                      description={ingredient[1]}
+                      id={ingredient[0]}
                       drinkId={this.props.drink.id}
                       drink={this.props.drink}
                       makingEdit={this.props.makingEdit}
-                      ingredient={ingredient}
                       updateDrinks={this.props.updateDrinks}
                       click_editField={this.props.click_editField}
                       click_cancelEditIngredientButton={this.props.click_cancelEditIngredientButton}
+                      click_deleteIngredientButton={this.props.click_deleteIngredientButton}
                       patch={this.props.patch}
                     />
                   </Segment>

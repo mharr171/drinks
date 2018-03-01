@@ -33,7 +33,7 @@ class Body extends Component {
       return (
         <EditDrink
           drink={this.props.drink}
-          ingredients={this.props.drink.ingredients}
+          ingredients={this.props.ingredients}
           newIngredient={this.props.newIngredient}
           makingEdit={this.props.makingEdit}
           patch={this.props.patchDrink}
@@ -42,6 +42,7 @@ class Body extends Component {
           click_editField={this.props.click_editField}
           click_newIngredientButton={this.props.click_newIngredientButton}
           click_cancelEditIngredientButton={this.props.click_cancelEditIngredientButton}
+          click_deleteIngredientButton={this.props.click_deleteIngredientButton}
         />
       );
     }else if (this.props.newDrink){
